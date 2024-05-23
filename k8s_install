@@ -45,12 +45,15 @@ sudo apt-get install -y kubelet kubeadm kubectl
 sudo apt-mark hold kubelet kubeadm kubectl
 sudo systemctl enable --now kubelet
 
-4. install network calico
+4. Create k8s cluster
+sudo kubeadm init --pod-network-cidr=10.10.0.0/16 --control-plane-endpoint 192.168.1.201
+
+5. install network calico
 kubectl create -f https://raw.githubusercontent.com/projectcalico/calico/v3.28.0/manifests/tigera-operator.yaml
 curl https://raw.githubusercontent.com/projectcalico/calico/v3.28.0/manifests/custom-resources.yaml -O
 -- edit lai file custom resource phan Ip
 watch kubectl get pods -n calico-system
 
-5. remove node master restricted
+6. remove node master restricted
 kubectl taint nodes --all node-role.kubernetes.io/control-plane-
 
